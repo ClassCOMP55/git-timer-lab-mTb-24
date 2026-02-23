@@ -50,6 +50,7 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 		if(numTimes % 40 == 0) {
 			addAnEnemy();
 		}
+		checkCollisions();
 	}
 	
 	public void mousePressed(MouseEvent e) {
@@ -98,6 +99,22 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 		for(GRect enemy : enemies) {
 			enemy.move(0, rgen.nextInt(-2, 2));
 		}
+	}
+	
+	private void checkCollisions() {
+		for (GOval ball : balls) {
+
+	        double checkX = ball.getX() + ball.getWidth() + 1;
+	        double checkY = ball.getY() + ball.getHeight() / 2;
+
+	        GObject obj = getElementAt(checkX, checkY);
+
+	        if (obj instanceof GRect) {
+	            remove(obj);
+	            enemies.remove(obj);
+	            text.setLabel("" + enemies.size());
+	        }
+	    }
 	}
 	
 	public void init() {
